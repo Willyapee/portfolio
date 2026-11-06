@@ -106,13 +106,13 @@ export default function About({ photos }: { photos: string[] }) {
       <div className="about-sticky">
         <div className="about-grid">
           <div className="about-copy">
-            <p className="about-kicker rv" style={{ "--rd": "0ms" } as CSSProperties}>
+            <p className="sec-kicker rv" style={{ "--rd": "0ms" } as CSSProperties}>
               <span>{"// 01"}</span> {about.kicker}
             </p>
-            <h2 className="about-title rv" style={{ "--rd": "80ms" } as CSSProperties}>
+            <h2 className="sec-title rv" style={{ "--rd": "80ms" } as CSSProperties}>
               <span>{about.title[0]}</span> <span className="lime">{about.title[1]}</span>
             </h2>
-            <p className="about-sub rv" style={{ "--rd": "160ms" } as CSSProperties}>
+            <p className="sec-sub rv" style={{ "--rd": "160ms" } as CSSProperties}>
               {about.subtitle}
             </p>
             {about.paragraphs.map((text, i) => (
