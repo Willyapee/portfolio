@@ -2,7 +2,13 @@
 
 import { useEffect, useRef, type RefObject } from "react";
 
-export function useScrollProgress(ref: RefObject<HTMLElement | null>, onChange?: (p: number) => void) {
+type Mode = "pin" | "enter";
+
+export function useScrollProgress(
+  ref: RefObject<HTMLElement | null>,
+  onChange?: (p: number) => void,
+  mode: Mode = "pin",
+) {
   const cb = useRef(onChange);
   useEffect(() => {
     cb.current = onChange;
@@ -16,8 +22,10 @@ export function useScrollProgress(ref: RefObject<HTMLElement | null>, onChange?:
     const update = () => {
       raf = 0;
       const rect = el.getBoundingClientRect();
-      const total = rect.height - window.innerHeight;
-      const p = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
+      const vh = window.innerHeight;
+      const span = mode === "enter" ? rect.height : rect.height - vh;
+      const raw = mode === "enter" ? vh - rect.top : -rect.top;
+      const p = span > 0 ? Math.min(1, Math.max(0, raw / span)) : 0;
       el.style.setProperty("--p", p.toFixed(4));
       cb.current?.(p);
     };
@@ -33,5 +41,5 @@ export function useScrollProgress(ref: RefObject<HTMLElement | null>, onChange?:
       window.removeEventListener("scroll", request);
       window.removeEventListener("resize", request);
     };
-  }, [ref]);
+  }, [ref, mode]);
 }
